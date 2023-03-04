@@ -1,19 +1,25 @@
-name: Upload Website
+name: My GitHub Actions Workflow
 
-on: 
+on:
   push:
-    branches:
-      - developer
+    branches: [ developer ]
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
 
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Clear yarn cache
+      run: yarn cache clean --force
+
+    - name: Remove node_modules folder
+      run: rm -rf node_modules
+
+    - name: Install dependencies
+      run: yarn
 
       - name: Build the app
         run: yarn build
